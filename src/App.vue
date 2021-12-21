@@ -23,4 +23,15 @@
   });
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+  #app {
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+  }
+  .content {
+    display: flex;
+    align-items: stretch;
+    min-height: calc(100vh - 60px);
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+</style>

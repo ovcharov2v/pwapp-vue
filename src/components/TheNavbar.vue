@@ -1,18 +1,49 @@
 <template>
-    <ul>
-        <li>
-            <router-link to="/">Profile</router-link>
-        </li>
-        <li>
-            <router-link to="/transactions">Transactions</router-link>
-        </li>
-        <li>
-            <router-link to="/history">History</router-link>
-        </li>
-        <li>
-            <button>Logout</button>
-        </li>
-    </ul>
+    <MDBNavbar expand="lg" light bg="light" class="header">
+        <MDBContainer class="header__container">
+            <MDBNavbarNav>
+                <MDBNavbarItem to="/" active>
+                    Profile
+                </MDBNavbarItem>
+                <MDBNavbarItem to="transactions">
+                    Transactions
+                </MDBNavbarItem>
+                <MDBNavbarItem to="history">
+                    History
+                </MDBNavbarItem>
+            </MDBNavbarNav>
+            <MDBBtn outline="dark">Logout</MDBBtn>
+        </MDBContainer>
+    </MDBNavbar>
 </template>
-<script lang="ts"></script>
-<style scoped></style>
+
+<script lang="ts">
+    import {
+        MDBContainer,
+        MDBBtn,
+        MDBNavbar,
+        MDBNavbarNav,
+        MDBNavbarItem,
+    } from 'mdb-vue-ui-kit';
+    import {defineComponent} from "vue";
+
+    export default defineComponent({
+        components: {
+            MDBContainer,
+            MDBBtn,
+            MDBNavbar,
+            MDBNavbarNav,
+            MDBNavbarItem,
+        },
+    });
+</script>
+
+<style lang="scss" scoped>
+    .header {
+        &__container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+</style>
