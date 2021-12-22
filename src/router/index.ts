@@ -1,4 +1,5 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import store from '../store';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -6,7 +7,8 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Profile',
     component: () => import('../views/Profile.vue'),
     meta: {
-      layout: 'dashboard'
+      layout: 'dashboard',
+      auth: true,
     }
   },
   {
@@ -14,7 +16,8 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Transactions',
     component: () => import('../views/Transactions.vue'),
     meta: {
-      layout: 'dashboard'
+      layout: 'dashboard',
+      auth: true,
     }
   },
   {
@@ -22,7 +25,8 @@ const routes: Array<RouteRecordRaw> = [
     name: 'History',
     component: () => import('../views/History.vue'),
     meta: {
-      layout: 'dashboard'
+      layout: 'dashboard',
+      auth: true,
     }
   },
   {
@@ -30,7 +34,8 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Auth',
     component: () => import('../views/Auth.vue'),
     meta: {
-      layout: 'auth'
+      layout: 'auth',
+      auth: false,
     }
   }
 ]
@@ -38,6 +43,17 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  const requiredAuth = to.meta.auth;
+
+  if(requiredAuth && !store.getters['auth/isAuthentificated']) {
+    next('/auth');
+  }
+  else {
+    next();
+  }
 })
 
 export default router

@@ -39,6 +39,8 @@
     } from 'mdb-vue-ui-kit';
     import * as yup from 'yup';
     import {useField, useForm} from 'vee-validate';
+    import {useStore} from "vuex";
+    import {useRouter} from "vue-router";
 
     export default defineComponent({
         props: [],
@@ -51,6 +53,8 @@
             MDBInput
         },
         setup(props, context) {
+            const store = useStore();
+            const router = useRouter();
             const {handleSubmit, isSubmitting} = useForm();
 
             const {value: email, errorMessage: emailError, handleBlur: emailBlur} = useField(
@@ -71,8 +75,9 @@
             );
             const isPasswordInvalid = computed(() => !!(passwordError.value && passwordError.value.length))
 
-            const onSubmit = handleSubmit((values) => {
-                console.log(values)
+            const onSubmit = handleSubmit(async (values) => {
+                await store.dispatch('auth/login', values);
+                await router.push('/');
             })
 
             function setForm() {
