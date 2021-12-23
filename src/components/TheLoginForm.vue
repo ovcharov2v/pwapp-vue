@@ -76,8 +76,13 @@
             const isPasswordInvalid = computed(() => !!(passwordError.value && passwordError.value.length))
 
             const onSubmit = handleSubmit(async (values) => {
-                await store.dispatch('auth/login', values);
-                await router.push('/');
+                try {
+                    await store.dispatch('auth/login', values);
+                    router.push('/');
+                }
+                catch (e) {
+                    //
+                }
             })
 
             function setForm() {

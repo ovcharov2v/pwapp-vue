@@ -3,8 +3,11 @@
 </template>
 
 <script lang="ts">
-  import {defineComponent, computed} from 'vue';
+  import {defineComponent, computed, watch} from 'vue';
   import {useRoute} from "vue-router";
+  import {useStore} from "vuex";
+  import {createToast} from "mosha-vue-toastify";
+  import 'mosha-vue-toastify/dist/style.css';
   import AuthLayout from './layout/AuthLayout.vue';
   import DashboardLayout from './layout/DashboardLayout.vue';
 
@@ -14,10 +17,30 @@
       DashboardLayout,
     },
     setup() {
+      const store = useStore();
       const route = useRoute();
 
+      const showMessage = (message:any) => {
+        createToast(message.text,{
+          type: message.type,
+          position: 'top-right',
+          transition: 'bounce',
+          timeout: 3000,
+          showIcon: true,
+          showCloseButton: true,
+          hideProgressBar: true,
+        })
+      }
+
+      watch(() => store.getters['message/message'], () => {
+        const message = store.getters['message/message'];
+        if(message) {
+          showMessage(message);
+        }
+      });
+
       return {
-        layout: computed(() => route.meta.layout)
+        layout: computed(() => route.meta.layout),
       }
     }
   });

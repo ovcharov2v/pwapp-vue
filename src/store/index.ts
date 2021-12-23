@@ -1,5 +1,6 @@
 import {createStore, createLogger} from 'vuex';
 import auth from './modules/auth.module';
+import message from './modules/message.module';
 
 const plugins = [];
 if (process.env.NODE_ENV === 'development') {
@@ -13,5 +14,6 @@ export default createStore({
     actions: {},
     modules: {
         auth,
+        message,
     }
 })
