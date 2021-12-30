@@ -12,6 +12,7 @@
                     History
                 </MDBNavbarItem>
             </MDBNavbarNav>
+            <p>{{$store.state.auth.name}} - {{$store.state.auth.balance}}PW</p>
             <MDBBtn outline="dark">Logout</MDBBtn>
         </MDBContainer>
     </MDBNavbar>
