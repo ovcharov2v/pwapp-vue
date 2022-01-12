@@ -5,11 +5,11 @@
             <MDBInput
                     label="Name"
                     class="mb-4"
-                    v-model="name"
-                    @blur="nameBlur"
-                    :invalidFeedback="nameError"
-                    :isInvalid="isNameInvalid"
-                    :isValidated="isNameInvalid"
+                    v-model="username"
+                    @blur="usernameBlur"
+                    :invalidFeedback="usernameError"
+                    :isInvalid="isUserNameInvalid"
+                    :isValidated="isUserNameInvalid"
             />
             <MDBInput
                     label="Email"
@@ -76,14 +76,14 @@
             const router = useRouter();
             const {handleSubmit, isSubmitting} = useForm();
 
-            const {value: name, errorMessage: nameError, handleBlur: nameBlur} = useField(
-                'name',
+            const {value: username, errorMessage: usernameError, handleBlur: usernameBlur} = useField(
+                'username',
                 yup.string()
                     .trim()
                     .required('Name is required')
                     .min(3, 'Min name length is 3')
             );
-            const isNameInvalid = computed(() => !!(nameError.value && nameError.value.length))
+            const isUserNameInvalid = computed(() => !!(usernameError.value && usernameError.value.length))
 
             const {value: email, errorMessage: emailError, handleBlur: emailBlur} = useField(
                 'email',
@@ -119,9 +119,11 @@
             const isRePasswordInvalid = computed(() => !!(rePasswordError.value && rePasswordError.value.length))
 
             const onSubmit = handleSubmit(async (values) => {
+                const payload = values;
+                delete payload.rePassword;
                 try {
-                    await store.dispatch('auth/register', values);
-                    router.push('/');
+                    await store.dispatch('auth/register', payload);
+                    await router.push('/');
                 }
                 catch (e) {
                     //
@@ -133,10 +135,10 @@
             }
 
             return {
-                name,
-                nameError,
-                nameBlur,
-                isNameInvalid,
+                username,
+                usernameError,
+                usernameBlur,
+                isUserNameInvalid,
                 email,
                 emailError,
                 emailBlur,

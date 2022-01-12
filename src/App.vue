@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-  import {defineComponent, computed, watch} from 'vue';
+  import {defineComponent, computed, watch, onMounted} from 'vue';
   import {useRoute} from "vue-router";
   import {useStore} from "vuex";
   import {createToast} from "mosha-vue-toastify";
@@ -39,6 +39,10 @@
         }
       });
 
+      onMounted(() => {
+        store.dispatch('auth/autoLogin');
+      })
+
       return {
         layout: computed(() => route.meta.layout),
       }
@@ -47,12 +51,11 @@
 </script>
 
 <style lang="scss">
-  #app {
-    font-family: Roboto, Helvetica, Arial, sans-serif;
-  }
   .content {
     display: flex;
-    align-items: stretch;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     min-height: calc(100vh - 60px);
     padding-top: 64px;
     padding-bottom: 64px;
