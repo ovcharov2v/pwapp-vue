@@ -29,9 +29,4 @@ export default {
             state.message = null;
         },
     },
-    actions: {
-        setMessage({commit }: { commit: Commit }, payload: any) {
-            commit('setMessage', payload);
-        }
-    }
 }
