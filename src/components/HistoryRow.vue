@@ -3,8 +3,8 @@
         <td>{{row.date}}</td>
         <td>{{row.username}}</td>
         <td :class="[isIncome? 'text-success' : 'text-danger']">{{Math.abs(row.amount)}}</td>
-        <td class="row__action">
-            <MDBBtn outline="dark" v-if="!isIncome">
+        <td class="row__action" v-if="haveActionCol">
+            <MDBBtn outline="dark" v-if="!isIncome" @click="handleResend">
                 Resend
             </MDBBtn>
         </td>
@@ -15,6 +15,7 @@
     import {defineComponent, PropType} from "vue";
     import {computed} from "@vue/reactivity";
     import {MDBBtn} from "mdb-vue-ui-kit";
+    import {useStore} from "vuex";
 
     interface IHistoryRow {
         id: string,
@@ -29,14 +30,29 @@
             row: {
                 type: Object as PropType<IHistoryRow>,
                 required: true,
+            },
+            haveActionCol: {
+                type: Boolean,
+                required: true,
             }
         },
+        emits: ['updateTransactionList'],
         components: {
             MDBBtn,
         },
-        setup(props) {
+        setup(props, context) {
+            const store = useStore();
+            const handleResend = async() => {
+                const payload = {
+                    name: props.row.username,
+                    amount: Math.abs(parseFloat(props.row.amount)),
+                }
+                await store.dispatch('transaction/createTransaction', payload);
+                context.emit('updateTransactionList');
+            }
             return {
-                isIncome: computed(() => parseFloat(props.row.amount) > 0)
+                isIncome: computed(() => parseFloat(props.row.amount) > 0),
+                handleResend,
             }
         }
     })

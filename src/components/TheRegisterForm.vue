@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts">
-    import {computed, defineComponent, ref} from "vue";
+    import {computed, defineComponent} from "vue";
     import {
         MDBCard,
         MDBCardBody,
@@ -158,10 +158,3 @@
         }
     })
 </script>
-
-<style lang="scss">
-    .invalid-feedback {
-        top: 36px;
-        margin: 0;
-    }
-</style>

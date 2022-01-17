@@ -1,5 +1,7 @@
 import {Commit, Dispatch} from 'vuex';
-import axios from "axios"
+import axios from "axios";
+import parse from 'date-fns/parse';
+import isBefore from 'date-fns/isBefore';
 
 const API_URL = process.env.VUE_APP_API_URL;
 
@@ -45,6 +47,10 @@ export default {
                     }
                 );
                 commit('user/updateBalance', parseFloat(res.data.trans_token.balance), {root: true});
+                commit(
+                    'message/setMessage',
+                    {type: 'info', text: `Successfully sent ${payload.amount} PW to ${payload.name}` },
+                    {root: true})
             }
             catch (error) {
                 commit(
@@ -61,7 +67,12 @@ export default {
                         headers: { Authorization: `Bearer ${rootState.auth.token}` }
                     }
                 );
-                commit('setTransactionList', res.data.trans_token)
+                const transactionList = res.data.trans_token.sort(function(a: ITransaction, b: ITransaction){
+                    const aDate = parse(a.date, 'dd.MM.yyyy, HH:mm:ss', new Date());
+                    const bDate = parse(b.date, 'dd.MM.yyyy, HH:mm:ss', new Date());
+                    return isBefore(aDate, bDate) ? 1: -1;
+                });
+                commit('setTransactionList', transactionList)
             }
             catch (error) {
                 commit(

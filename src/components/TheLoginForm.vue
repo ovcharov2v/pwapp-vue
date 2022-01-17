@@ -105,10 +105,3 @@
         }
     })
 </script>
-
-<style lang="scss">
-    .invalid-feedback {
-        top: 36px;
-        margin: 0;
-    }
-</style>

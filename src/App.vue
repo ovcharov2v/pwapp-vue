@@ -60,4 +60,8 @@
     padding-top: 64px;
     padding-bottom: 64px;
   }
+  .invalid-feedback {
+    top: 36px;
+    margin-top: 0 !important;
+  }
 </style>
